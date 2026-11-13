@@ -77,6 +77,21 @@ hospital-management-portal/
 ├── .gitignore
 └── README.md
 ```
+### Relationship overview
+
+```mermaid
+erDiagram
+  DEPARTMENTS ||--o{ DOCTORS : contains
+  PATIENTS ||--o{ APPOINTMENTS : books
+  DOCTORS ||--o{ APPOINTMENTS : sees
+  APPOINTMENTS ||--o| MEDICAL_RECORDS : documents
+  MEDICAL_RECORDS ||--o| PRESCRIPTIONS : has
+  PRESCRIPTIONS ||--o{ PRESCRIPTION_ITEMS : contains
+  APPOINTMENTS ||--o| BILLS : billed_as
+  BILLS ||--o{ BILL_ITEMS : contains
+  BILLS ||--o{ PAYMENTS : receives
+  USERS ||--o{ AUDIT_LOGS : performs
+```
 
 ## ⚙️ Installation & Setup
 
