@@ -151,11 +151,9 @@ mvn test
 - Role checks are implemented in service classes.
 - Database credentials should be configured locally.
 - Input validation is applied before processing operations.
-
-## 📸 Screenshots
-
-Screenshots of the application's login screen, dashboard, patient management, and billing modules will be added here.
-
+  git add README.md
+  git commit -m "Improve project documentation"
+  git push
 ## 👨‍💻 Developer
 
 **Kaif Ahmad**
