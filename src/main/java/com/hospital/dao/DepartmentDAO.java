@@ -1,0 +1,8 @@
+package com.hospital.dao;
+import com.hospital.util.DBConnection;import java.sql.*;import java.util.*;
+public class DepartmentDAO {
+ public long create(String name,String description)throws SQLException{try(Connection c=DBConnection.getConnection();PreparedStatement p=c.prepareStatement("INSERT INTO departments(name,description) VALUES(?,?)",Statement.RETURN_GENERATED_KEYS)){p.setString(1,name);p.setString(2,description);p.executeUpdate();try(ResultSet r=p.getGeneratedKeys()){r.next();return r.getLong(1);}}}
+ public List<String> list()throws SQLException{try(Connection c=DBConnection.getConnection();PreparedStatement p=c.prepareStatement("SELECT department_id,name,active FROM departments ORDER BY name");ResultSet r=p.executeQuery()){List<String> x=new ArrayList<>();while(r.next())x.add(r.getLong(1)+" | "+r.getString(2)+" | active="+r.getBoolean(3));return x;}}
+ public void update(long id,String name,String description)throws SQLException{try(Connection c=DBConnection.getConnection();PreparedStatement p=c.prepareStatement("UPDATE departments SET name=?,description=? WHERE department_id=? AND active=1")){p.setString(1,name);p.setString(2,description);p.setLong(3,id);if(p.executeUpdate()==0)throw new SQLException("Active department not found.");}}
+ public void deactivate(long id)throws SQLException{try(Connection c=DBConnection.getConnection();PreparedStatement p=c.prepareStatement("UPDATE departments SET active=0 WHERE department_id=? AND active=1 AND NOT EXISTS(SELECT 1 FROM doctors WHERE department_id=? AND active=1)")){p.setLong(1,id);p.setLong(2,id);if(p.executeUpdate()==0)throw new SQLException("Department not found or still has active doctors.");}}
+}
